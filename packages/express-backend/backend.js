@@ -77,6 +77,23 @@ app.get("/users/:id", (req, res) => {
   }
 });
 
+const deleteUserById = (id) => {
+  return users["users_list"].filter((user) => user["id"] !== id);
+};
+
+app.delete("/users/:id", (req, res) => {
+  const id = req.params["id"];
+  let result = deleteUserById(id);
+  users["users_list"] = result;
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res
+      .status(200)
+      .json({ message: `Item with ID ${id} deleted successfully` });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
