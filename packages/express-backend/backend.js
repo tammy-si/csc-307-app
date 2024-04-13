@@ -51,6 +51,19 @@ const findUserByNameAndJob = (name, job) => {
   );
 };
 
+const idGenerator = () => {
+  let id = "";
+  // generate random 3 letter
+  for (let i = 0; i < 3; i++) {
+    id += String.fromCharCode(97 + Math.floor(Math.random() * 26));
+  }
+
+  for (let j = 0; j < 3; j++) {
+    id += Math.floor(Math.random() * 9);
+  }
+  return id;
+};
+
 app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
@@ -76,6 +89,8 @@ const addUser = (user) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  let id = idGenerator();
+  userToAdd["id"] = id;
   addUser(userToAdd);
   res.status(201);
   res.send();
