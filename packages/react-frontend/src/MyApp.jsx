@@ -41,8 +41,11 @@ function MyApp() {
     postUser(person)
       .then((res) => {
         if (res.status != 201) throw new Error("No successful post");
+        return res.json();
       })
-      .then(() => setCharacters([...characters, person]))
+      .then((json) => {
+        setCharacters([...characters, json]);
+      })
       .catch((error) => {
         console.log(error);
       });

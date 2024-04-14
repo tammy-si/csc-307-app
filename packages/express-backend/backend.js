@@ -93,7 +93,7 @@ app.post("/users", (req, res) => {
   userToAdd["id"] = id;
   addUser(userToAdd);
   res.status(201);
-  res.send();
+  res.send(userToAdd);
 });
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
