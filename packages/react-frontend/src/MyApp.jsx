@@ -30,11 +30,30 @@ function MyApp() {
     return promise;
   }
 
-  function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
+  function deleteUser(id) {
+    const promise = fetch(`http://localhost:8000/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    setCharacters(updated);
+    return promise;
+  }
+
+  function removeOneCharacter(id) {
+    deleteUser(id)
+      .then((res) => {
+        if (res.status != 204) throw new Error("Character not found");
+      })
+      .then(() => {
+        const updated = characters.filter((character) => {
+          return character.id !== id;
+        });
+        setCharacters(updated);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function updateList(person) {
@@ -43,9 +62,7 @@ function MyApp() {
         if (res.status != 201) throw new Error("No successful post");
         return res.json();
       })
-      .then((json) => {
-        setCharacters([...characters, json]);
-      })
+      .then((json) => setCharacters([...characters, json]))
       .catch((error) => {
         console.log(error);
       });
