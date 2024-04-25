@@ -6,6 +6,7 @@ import {
   findUserById,
   findUserByName,
   findUserByJob,
+  deleteUserById,
 } from "./models/userservices.js";
 
 const app = express();
@@ -44,9 +45,11 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.status(201);
-  res.send(userToAdd);
+  addUser(userToAdd)
+    .then((result) => res.status(201).send(result))
+    .catch((error) => {
+      res.status(404).send("Error adding user");
+    });
 });
 
 app.get("/users/:id", (req, res) => {
@@ -61,15 +64,16 @@ app.get("/users/:id", (req, res) => {
 
 app.delete("/users/:id", (req, res) => {
   const id = req.params["id"];
-  let result = deleteUserById(id);
-  users["users_list"] = result;
-  if (result === undefined) {
-    res.status(404).send("Resource not found.");
-  } else {
-    res
-      .status(204)
-      .json({ message: `Item with ID ${id} deleted successfully` });
-  }
+  deleteUserById(id)
+    .then((result) =>
+      res
+        .status(204)
+        .json({ message: `Item with ID ${id} deleted successfully` })
+    )
+    .catch((error) => {
+      console.error("Resource not found:", error);
+      res.status(404).send("Resource not found");
+    });
 });
 
 app.listen(port, () => {

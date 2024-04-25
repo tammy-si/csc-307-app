@@ -25,7 +25,6 @@ export function getUsers(name, job) {
 }
 
 export function findUserById(id) {
-  console.log(id);
   return userModel.findById(id);
 }
 
@@ -45,4 +44,8 @@ export function findUserByJob(job) {
 
 export function findUserByNameAndJob(name, job) {
   return userModel.find({ job: job, name: name });
+}
+
+export function deleteUserById(id) {
+  return userModel.findByIdAndDelete(id);
 }
