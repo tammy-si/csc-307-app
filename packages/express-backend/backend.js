@@ -45,8 +45,6 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  let id = idGenerator();
-  userToAdd["id"] = id;
   addUser(userToAdd);
   res.status(201);
   res.send(userToAdd);
