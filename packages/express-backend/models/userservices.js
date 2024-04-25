@@ -25,6 +25,7 @@ export function getUsers(name, job) {
 }
 
 export function findUserById(id) {
+  console.log(id);
   return userModel.findById(id);
 }
 
