@@ -47,7 +47,7 @@ function MyApp() {
       })
       .then(() => {
         const updated = characters.filter((character) => {
-          return character.id !== id;
+          return character._id !== id;
         });
         setCharacters(updated);
       })
@@ -57,12 +57,17 @@ function MyApp() {
   }
 
   function updateList(person) {
+    console.log("here");
     postUser(person)
       .then((res) => {
         if (res.status != 201) throw new Error("No successful post");
         return res.json();
       })
-      .then((json) => setCharacters([...characters, json]))
+      .then((json) => {
+        console.log("checkhere");
+        console.log(json);
+        setCharacters([...characters, json]);
+      })
       .catch((error) => {
         console.log(error);
       });
