@@ -34,11 +34,9 @@ const idGenerator = () => {
 app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
-
-  getUsers(name ? name : undefined, job ? job : undefined)
-    .then((result) => {
-      res.send(result);
-    })
+  console.log("here");
+  getUsers(name, job)
+    .then((result) => res.send({ users_list: result }))
     .catch((error) => {
       console.error("Error getting users:", error);
       res.status(404).send("Error getting users");

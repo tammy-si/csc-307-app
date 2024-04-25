@@ -18,6 +18,8 @@ export function getUsers(name, job) {
     promise = findUserByName(name);
   } else if (job && !name) {
     promise = findUserByJob(job);
+  } else {
+    promise = findUserByNameAndJob(name, job);
   }
   return promise;
 }
@@ -38,4 +40,8 @@ export function findUserByName(name) {
 
 export function findUserByJob(job) {
   return userModel.find({ job: job });
+}
+
+export function findUserByNameAndJob(name, job) {
+  return userModel.find({ job: job, name: name });
 }
